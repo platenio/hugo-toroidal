@@ -1,0 +1,6 @@
+<li class="toroidal-member-entry">
+  <a href="{{ .Params.homepage }}">{{ .Params.name }}</a>
+  {{- with .Params.description -}}
+  : <span>{{ . }}</span>
+  {{- end -}}
+</li>
