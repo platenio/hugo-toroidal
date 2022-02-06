@@ -101,13 +101,22 @@ If you inspect the iframe, you'll see HTML like this:
   <h2 id="toroidal-menu-label">Super Neat Webring</h2>
   <ul role="menu" id="toroidal-menu" aria-label="Super Neat Webring">
     <li role="none">
-      <a role="menuitem" aria-haspopup="false" href="https://previous-member.com">Previous</a>
+      <a role="menuitem"
+         aria-haspopup="false"
+         target="_parent"
+         href="https://previous-member.com">Previous</a>
     </li>
     <li role="none">
-      <a role="menuitem" aria-haspopup="false" href="http://superneatwebring.com/toroidal/">Member List</a>
+      <a role="menuitem"
+         aria-haspopup="false"
+         target="_parent"
+         href="http://superneatwebring.com/toroidal/">Member List</a>
     </li>
     <li role="none">
-      <a role="menuitem" aria-haspopup="false" href="https://next-member.com">Next</a>
+      <a role="menuitem"
+         aria-haspopup="false"
+         target="_parent"
+         href="https://next-member.com">Next</a>
     </li>
   </ul>
 </nav>
