@@ -1,0 +1,18 @@
+{{ define "main" }}
+{{ $vars := newScratch }}
+{{ with .Site.Params.Toroidal.WebringName }}
+  {{ $vars.Set "webringName" (printf " %s " .)}}
+{{ else }}
+  {{ $vars.Set "webringName" ""}}
+{{ end }}
+<article class="toroidal">
+  <h2>Members of the {{ $vars.Get "webringName" }} Webring</h2>
+  <ul class="toroidal-member-list">
+    {{ range .Paginator.Pages }}
+    {{ partial "toroidal/member-entry" . }}
+    {{ end }}
+  </ul>
+  {{ template "_internal/pagination.html" . }}
+  <iframe src="{{ relref . "/toroidal/first-member" }}"></iframe>
+</article>
+{{ end }}
