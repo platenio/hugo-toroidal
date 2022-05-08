@@ -36,7 +36,31 @@
     {{- $vars.Set "next" .Params.homepage -}}
   {{- end -}}
 {{- end -}}
+{{/*
+  Get the list of member pages and create the javascript for selecting a random page.
+*/}}
+{{- if .Site.Params.Toroidal.RandomMemberLink -}}
+  {{- range (first 1 $toroidalPages) -}}
+    {{- $vars.Set "memberPages" (slice .Params.homepage) -}}
+  {{- end -}}
+  {{- range $toroidalPages -}}
+    {{- if not (in ($vars.Get "memberPages") .Params.homepage) -}}
+      {{- $vars.Set "memberPages" (($vars.Get "memberPages") | append .Params.homepage) -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
 <nav aria-labelledby="toroidal-menu-label">
+  {{- if .Site.Params.Toroidal.RandomMemberLink -}}
+  <script type="text/javascript">
+    var memberPages = {{ ($vars.Get "memberPages" | jsonify | safeJS) }};
+    function getRandomMemberPage() {
+      return memberPages[Math.floor(Math.random() * memberPages.length)];
+    };
+    function goToRandomMemberPage() {
+      window.open(getRandomMemberPage(), "_blank")
+    }
+  </script>
+  {{- end -}}
   <h2 id="toroidal-menu-label">{{ $vars.Get "webringName" }}Webring</h2>
   <ul role="menu" id="toroidal-menu" aria-label="{{ $vars.Get "webringName" }}Webring">
     <li role="none">
@@ -45,6 +69,11 @@
     <li role="none">
       <a role="menuitem" aria-haspopup="false" target="_parent" href="{{ ref . "/toroidal"}}">Member List</a>
     </li>
+    {{- if .Site.Params.Toroidal.RandomMemberLink -}}
+    <li role="none">
+      <a role="menuitem" aria-haspopup="false" target="_parent" onclick="this.href=getRandomMemberPage()" href="Random Member">Random</a>
+    </li>
+    {{- end -}}
     <li role="none">
       <a role="menuitem" aria-haspopup="false" target="_parent" href="{{ $vars.Get "next" }}">Next</a>
     </li>

@@ -33,7 +33,9 @@ We'll update this section when that's ready!
 
 ## Configuring Your Webring
 
-Right now there's only one configuration item for this module and it's optional.
+Right now there's only a few configuration items for this module and they're optional.
+
+### Webring Name
 
 If you'd like to name your Webring, edit your site config:
 
@@ -54,6 +56,30 @@ params:
 The above example will change the header for your site member list to `Members of the FooBar Webring` and the generated webring navigation label to `FooBar Webring`.
 
 If left unset, the header for your site member list will read `Members of the Webring` and the generated webring navigation label will read `Webring`.
+
+### Random Member Link
+
+By default, the iframes for your webring include the name of the webring and then a nav list enabling users to go to the previous member of the webring,
+the list of all webring members, or the next member of the webring.
+
+With the `RandomMemberLink` configuration option, you can enable users to click a link to navigate to the homepage of a random member of the webring.
+
+```yaml
+#config.yaml
+params:
+  Toroidal:
+    RandomMemberLink: true
+```
+
+```toml
+#config.toml
+[params]
+  [params.Toroidal]
+  WebringName = true
+```
+
+Specifying the value for this configuration item as `false` is the same as not specifying it.
+You must opt in by setting this configuration item to `true` to enable the random member link.
 
 ## Adding Members
 
