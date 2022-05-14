@@ -1,0 +1,10 @@
+{{/* Returns the list of all member pages */}}
+{{- $toroidalPages := where .Site.Pages "Section" "toroidal" -}}
+{{- $toroidalPages = where $toroidalPages "Params.homepage" "!=" nil -}}
+{{- $memberPages := slice -}}
+{{- range $toroidalPages -}}
+  {{- if not (in $memberPages .Params.homepage) -}}
+    {{- $memberPages = $memberPages | append .Params.homepage -}}
+  {{- end -}}
+{{- end -}}
+{{- return $memberPages -}}

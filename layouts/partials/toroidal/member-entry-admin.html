@@ -1,0 +1,62 @@
+{{- $iframeVars := partial "toroidal/utils/getIframeInfo" . -}}
+{{- $sourceVars := partial "toroidal/utils/getPageInfo" . -}}
+{{- $sourceVars.Delete "styles" -}}
+{{- $sourceVars.Set "forEmbedding" true -}}
+
+
+{{- $embedIframeCommentless  := partial "toroidal/member-entry-iframe" (merge $iframeVars (dict "displayComments" false)) -}}
+{{- $embedIframe  := partial "toroidal/member-entry-iframe" $iframeVars -}}
+{{- $embedLiteralCommentless := partial "toroidal/member-entry-page" $sourceVars -}}
+{{- $sourceVars.Set "displayComments" true}}
+{{- $embedLiteral := partial "toroidal/member-entry-page" $sourceVars -}}
+
+{{- $sourceHref := partial "toroidal/utils/getSourceHref" . -}}
+{{- $name       := .Params.name -}}
+{{- $baseID     := printf "%s-%s" ($sourceVars.Get "webringName") $name | urlize | lower -}}
+{{- $literalID  := printf "%s-%s" $baseID "literal" -}}
+{{- $iframeID   := printf "%s-%s" $baseID "iframe" -}}
+
+<section class="toroidal-member-entry-admin" id="{{$baseID}}">
+  <h2>{{ $name }}</h2>
+  <section class="toroidal-member-entry-admin-links">
+    <h3>Links</h3>
+    <ul>
+      <li><a href="{{ .Params.homepage }}">Homepage</a></li>
+      <li><a href="{{ $sourceHref }}">Edit Source</a></li>
+    </ul>
+  </section>
+  <section class="toroidal-member-entry-admin-embed">
+    <h3>Literal HTML</h3>
+    <details id="{{ $literalID }}"
+             data-code-snippet="{{ string $embedLiteral }}"
+             data-code-snippet-commentless="{{ string $embedLiteralCommentless }}">
+      <summary>Code</summary>
+      {{- highlight (string $embedLiteral) "html" -}}
+    </details>
+    <div class="toroidal-copy-buttons">
+      <button onclick="copyMemberCodeToClipBoard('{{$literalID}}')">
+        Copy literal HTML
+      </button>
+      <button onclick="copyMemberCodeToClipBoard('{{$literalID}}', true)">
+        Copy literal HTML without comments
+      </button>
+    </div>
+  </section>
+  <section class="toroidal-member-entry-admin-embed">
+    <h3>iframe HTML</h3>
+    <details id="{{ $iframeID }}"
+             data-code-snippet="{{ string $embedIframe }}"
+             data-code-snippet-commentless="{{ string $embedIframeCommentless }}">
+      <summary>Code</summary>
+      {{- highlight (string $embedIframe) "html" -}}
+    </details>
+    <div class="toroidal-copy-buttons">
+      <button onclick="copyMemberCodeToClipBoard('{{ $iframeID }}')">
+        Copy iframe HTML
+      </button>
+      <button onclick="copyMemberCodeToClipBoard('{{ $iframeID }}', true)">
+        Copy iframe HTML without comments
+      </button>
+    </div>
+  </section>
+</section>

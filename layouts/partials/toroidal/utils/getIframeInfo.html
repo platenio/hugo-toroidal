@@ -1,0 +1,7 @@
+{{/* Set the variables for the iframe */}}
+{{- $webringName     := dict "webringName" (urlize (partial "toroidal/utils/getWebringName" .))}}
+{{- $memberName      := dict "memberName" (urlize .Params.name) -}}
+{{- $memberUrl       := dict "memberUrl" .Permalink -}}
+{{- $displayComments := dict "displayComments" true -}}
+
+{{- return (merge $webringName $memberName $memberUrl $displayComments) -}}

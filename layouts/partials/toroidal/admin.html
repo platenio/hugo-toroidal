@@ -1,0 +1,77 @@
+{{- $vars := newScratch -}}
+{{- with .Site.Params.Toroidal.WebringName -}}
+  {{- $vars.Set "webringName" (printf " %s " .) -}}
+{{- else -}}
+  {{- $vars.Set "webringName" "" -}}
+{{- end -}}
+{{/* Grab the list of member pages; these are already sorted by weight */}}
+{{- $toroidalPages := where .Site.Pages "Section" "toroidal" -}}
+{{- $toroidalPages = where $toroidalPages "Params.homepage" "!=" nil -}}
+<article class="toroidal">
+  <header>
+    <h1>{{ $vars.Get "webringName" }} Administration</h1>
+    {{ partial "toroidal/utils/getStylesLink" . }}
+    <details>
+      <summary>About member administation</summary>
+      <p>
+        This page includes some useful information for members to be
+        able to grab for setting up their webring navigation on their
+        own sites.
+      </p>
+      <p>
+        Each member has their own section with links and embed code
+        for both literals and iframes. The links section includes the
+        configured link to their homepage and a link to the markdown
+        source where their entry can be edited.
+      </p>
+      <p>
+        The HTML sections include the code snippet for that type of
+        embed and buttons they can click to copy the code onto their
+        clipboard. The displayed code snippet includes comments that
+        explain what the code does and why. It's up to each member
+        whether they want to embed the webring in their site as a
+        literal or an iframe and if they want to include the comments
+        or not.
+      </p>
+      <p>
+        The iframe embed is a simple way to get the webring navigation
+        up and running on a member site, everything is taken care of
+        for them. Copy, paste, done. However, the drawback is that an
+        iframe is much less configurable and stylable; you get what
+        the host gives you, essentially.
+      </p>
+      <p>
+        The literal embed is a bit higher touch and much longer; it
+        gives a member the full source of the navigation menu for the
+        webring alongside a script to pull the latest data from the
+        webring host. This gives a member full control over where and
+        how the navigation is displayed but doesn't provide any default
+        styling for them.
+      </p>
+      <p>
+        Regardless of whether a member chooses the iframe or literal
+        embed, unless the host changes their hosting URL or the
+        member's site name, members should not have to update their
+        embedded code very often, if ever.
+      </p>
+    </details>
+  </header>
+  {{- range $toroidalPages -}}
+  {{ partial "toroidal/member-entry-admin" . }}
+  {{- end -}}
+  <footer>
+    <script>
+      function copyMemberCodeToClipBoard(id, withoutComments = false) {
+        const idComponents = id.split('-')
+        const webringName  = idComponents[0]
+        const memberName   = idComponents[1]
+        const copyType     = idComponents[2]
+        const codeType     = withoutComments ? 'commentless code' : 'code'
+        const element = document.getElementById(id).dataset
+        const text = withoutComments ? element.codeSnippetCommentless : element.codeSnippet
+        navigator.clipboard.writeText(text);
+        alert(`Copied the ${copyType} ${codeType} for ${memberName} as a member of ${webringName}`)
+      }
+    </script>
+  </footer>
+</article>

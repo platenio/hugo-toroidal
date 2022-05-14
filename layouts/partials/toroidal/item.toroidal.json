@@ -1,0 +1,19 @@
+{{/*
+  Expects a dict with `context` for the current page
+  and `inList` for whether or not this should be
+  included in a list or is a standalone entry.
+*/}}
+{{- $vars := partial "toroidal/utils/getPageInfo" .context -}}
+{{- if .inList }}{
+        "name": "{{ .context.Params.name }}",
+        "home": "{{ .context.Params.homepage }}",
+        "prev": "{{ $vars.Get "prevHref"}}",
+        "next": "{{ $vars.Get "nextHref" }}"
+      }
+{{- else }}{
+    "name": "{{ .context.Params.name }}",
+    "home": "{{ .context.Params.homepage }}",
+    "prev": "{{ $vars.Get "prevHref"}}",
+    "next": "{{ $vars.Get "nextHref" }}"
+  }
+{{- end -}}

@@ -1,0 +1,3 @@
+{{ define "response" -}}
+{{ partial "toroidal/item.toroidal.json" (dict "context" .) -}}
+{{- end -}}

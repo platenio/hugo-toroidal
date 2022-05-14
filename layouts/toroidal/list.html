@@ -1,17 +1,17 @@
-{{ define "main" }}
-{{ $vars := newScratch }}
-{{ with .Site.Params.Toroidal.WebringName }}
-  {{ $vars.Set "webringName" (printf " %s " .)}}
-{{ else }}
-  {{ $vars.Set "webringName" ""}}
-{{ end }}
+{{- define "main" -}}
+{{- $vars := newScratch -}}
+{{- with .Site.Params.Toroidal.WebringName -}}
+  {{- $vars.Set "webringName" . -}}
+{{- else -}}
+  {{- $vars.Set "webringName" "Webring" -}}
+{{- end -}}
 <article class="toroidal">
-  <h2>Members of the {{ $vars.Get "webringName" }} Webring</h2>
+  <h2>Members of the {{ $vars.Get "webringName" }}</h2>
   <ul class="toroidal-member-list">
-    {{ range .Paginator.Pages }}
-    {{ partial "toroidal/member-entry" . }}
-    {{ end }}
+    {{- range where .Paginator.Pages "Params.homepage" "!=" nil -}}
+    {{ partial "toroidal/member-entry-list" . }}
+    {{- end -}}
   </ul>
   {{ template "_internal/pagination.html" . }}
 </article>
-{{ end }}
+{{- end -}}

@@ -1,0 +1,7 @@
+{{- $styles := partial "toroidal/utils/getStyles" . -}}
+<link rel="stylesheet" href="{{ $styles.RelPermalink }}" {{ template "integrity" $styles }}>
+{{- define "integrity" -}}
+  {{- if (urls.Parse .Permalink).Host -}}
+    integrity="{{ .Data.Integrity }}" crossorigin="anonymous"
+  {{- end -}}
+{{- end -}}

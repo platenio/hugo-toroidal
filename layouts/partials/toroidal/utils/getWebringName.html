@@ -1,0 +1,5 @@
+{{ $webringName := "Webring" }}
+{{- with .Site.Params.Toroidal.WebringName -}}
+  {{- $webringName = . -}}
+{{- end -}}
+{{- return $webringName -}}

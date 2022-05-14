@@ -1,0 +1,8 @@
+{{- $sourceHref := "" -}}
+{{- if (isset .Site.Params "BookRepo") -}}
+  {{- $sourceHref = .Site.Params.BookRepo -}}
+{{- else if (isset .Site.Params "Repo") -}}
+  {{- $sourceHref = .Site.Params.Repo -}}
+{{- else if (isset .Site.Params.Toroidal "Repo") -}}
+  {{- $sourceHref = .Site.Params.Toroidal.Repo -}}
+{{- end -}}
