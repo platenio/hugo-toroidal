@@ -75,11 +75,43 @@ params:
 #config.toml
 [params]
   [params.Toroidal]
-  WebringName = true
+  RandomMemberLink = true
 ```
 
 Specifying the value for this configuration item as `false` is the same as not specifying it.
 You must opt in by setting this configuration item to `true` to enable the random member link.
+
+### Theming
+
+Minimal theming has been added to the member pages of the webring. This theme uses SCSS in the
+`assets/toroidal` folder. By default, the theme is set to **Auto**, which chooses between the
+built-in light and dark themes depending on the user's operating system setting preferences.
+
+You can specify an override via the `Theme` configuration option:
+
+```yaml
+#config.yaml
+params:
+  Toroidal:
+    Theme: custom # or light, dark, or auto
+```
+
+```toml
+#config.toml
+[params]
+  [params.Toroidal]
+  Theme = 'custom' # or light, dark, or auto
+```
+
+The `custom` option allows you to design your own theme from scratch; to do so, you will need to
+shadow the `assets/toroidal/_custom.scss` file in your own site repo.
+
+You can also override any variables you choose by shadowing the `assets/toroidal/_variables.scss`
+file. In the future, we'll have documentation explaining all of the variables. For now,
+unfortunately, you need to [check out the source][source-variables] to see what is in there.
+
+If you have any ideas for theming or run into anything you'd like us to make more extensible,
+please [file an issue][file-an-issue].
 
 ## Adding Members
 
@@ -107,68 +139,86 @@ This will:
 You will need a file for every member site added to the webring.
 For now, we don't have any helpers to ease this, but we're going to write some tooling and update this doc as those land.
 
-## Adding the Webring Navigation to Your Member Site
+## Setting up the webring administration page
 
-To add the webring navigation to your member site, you'll need to:
+You can opt-in to a more delightful experience for your webring members by creating an admin page.
+To do so, create the `content/toroidal/admin.md` file and give it the following frontmatter:
 
-1. Have your member page added to the webring host site and live on the internet.
-2. Know the name of the file added (we suggest using your site name lowercased with hyphens instead of spaces; so "My Really Neat Site" would become `my-really-neat-site`)
-3. Add an iframe to your site where you want the navigation to go:
-   ```html
-   <iframe src="https://superneatwebring.com/toroidal/my-really-neat-site">
-   </iframe>
-   ```
-
-That will add the navigation menu wherever you placed it in your own site code.
-If you inspect the iframe, you'll see HTML like this:
-
-```html
-<nav aria-labelledby="toroidal-menu-label">
-  <h2 id="toroidal-menu-label">Super Neat Webring</h2>
-  <ul role="menu" id="toroidal-menu" aria-label="Super Neat Webring">
-    <li role="none">
-      <a role="menuitem"
-         aria-haspopup="false"
-         target="_parent"
-         href="https://previous-member.com">Previous</a>
-    </li>
-    <li role="none">
-      <a role="menuitem"
-         aria-haspopup="false"
-         target="_parent"
-         href="http://superneatwebring.com/toroidal/">Member List</a>
-    </li>
-    <li role="none">
-      <a role="menuitem"
-         aria-haspopup="false"
-         target="_parent"
-         href="https://next-member.com">Next</a>
-    </li>
-  </ul>
-</nav>
+```yaml
+title: Toroidal Administration
+description: |
+  A useful admin page for toroidal webring members
+type: toroidal/admin
+outputs:
+  - html
+  - toroidal
 ```
 
-> Of course, the URLs and webring name will match your webring!
+> **Note:** You can replace the title and description with whatever you like, but for the admin
+> page to work properly, you need to set the `type` to `toroidal/admin` and make sure the `outputs`
+> includes both `html` and `toroidal`.
 
-### Theming
+With the administration page setup, your members can navigate to it, find their entry on the page,
+and then review the code snippets and choose whether they want to copy the literal embed code or
+use an iframe. This view also shows them their currently configured homepage (which other members
+will navigate to for their entry in the webring) and the link to where the member can edit the
+markdown source file for their member entry.
 
-By default, this module does _zero_ special theming for either the member site list or the generated webring navigation menu.
-Your member site list will inherit your hugo theme's defaults and display a paginated list of sites (10 per page, and users can click through the list to see more members if needed).
+## Adding the webring navigation to your member site
 
-Your webring navigation will be pure unstyled HTML in an iframe.
+To add the webring navigation to your member site, the following requirements must be met:
 
-Some default themes will be available in the future.
-For now, here's some info you can use to theme things for yourself:
+1. Your member page must be added to the webring host site and live on the internet.
+2. The webring host must have setup the [Admin page][admin-page] correctly.
 
-1. The member list is inside of an `article` tag with the `toroidal` class.
-   1. It includes an `h2` tag with the text "Members of the `Webring Name` Webring"
-   2. It includes a `ul` tag with the `toroidal-member-list` class
-   3. Each of the member sites in that list are in a `li` tag with the `toroidal-member-entry` class
-   4. Each `li` includes an `a` tag with their site name and referencing their URL followed by a `span` for their description
-2. The generated webring navigation is inside of a `nav` tag with the `toroidal` class
-   1. The `h2` that labels the navigation has the id `toroidal-menu`
-   2. Each entry in the menu is an `li` tag with role set to `none` with an `a` tag whose role is set to `menuitem`
+Once you have confirmed that both of those items are true, you can navigate to the admin page on
+your host's site. On that page, you'll find an entry for your site as a member and you can choose
+whether you want to embed the navigation on your site as a literal or an iframe.
+
+In both cases, you will be able to review the embeddable code with comments that explain what/why
+it does what it does. There are tradeoffs to both approaches, but in general, the literal embed
+gives you more flexibility by requiring more work on your part while the iframe is minimal-work
+to use but also minimal-flexibility.
+
+Both options are designed so that you should not need to update your embedded code unless the name
+used for your member site changes or the webring host updates their base URL or the path to the
+admin page.
+
+### Embedding the literal HTML
+
+If you choose to embed the literal HTML, you're embedding a copy of the generated HTML that sits
+on your member page on the host with two major differences:
+
+1. It does _not_ include the host's styling; the HTML elements have the same classes and
+   functionality, but none of the host's CSS comes with it. You will need to add your own styling
+   via your site to handle how it displays for your users.
+2. It includes a script which runs on page load to retrieve the latest data from the webring host
+   and updates your navigation with the most accurate/up-to-date info it can. If the host can't be
+   reached, it falls back on the links defined in the HTML you embedded--so you're never _wholly_
+   beholden to the host after you embed, but being able to connect means you don't need to grab the
+   updated embed code everytime the host makes a change.
+
+### Embedding as an iframe
+
+If you choose to embed the iframe HTML, you're embedding a reference to your member page on the host
+inside your own website. Without the comments, this code snippet is much smaller than the literal
+embed option, but it is _wholly_ dependent on connectivity to the webring host being available and
+without substantial scripting on your end, you cannot retheme or otherwise style it.
+
+On the other hand, because you're not embedding anything but a window into the host, you can also
+rely on the default styling the host gives you without having to do any of the work yourself. When
+compared to the literal embed, the iframe is much easier and more straightforward to use. You copy
+the snippet, place it in your site where you want it to show up, and that's it.
+
+The only special handling for the iframe on your site comes in the form of a convenience script,
+which inspects the iframe after it loads and sets its size to the actual size of the content.
 
 ## Contacting Us
 
-If you have any questions, comments, or concerns, you can reach out to us by [starting a discussion](https://github.com/platenio/hugo-toroidal/discussions/new), [filing an issue](https://github.com/platenio/hugo-toroidal/issues/new), or reaching out to the maintainers on Twitter or Discord.
+If you have any questions, comments, or concerns, you can reach out to us by
+[starting a discussion][start-a-discussion], [filing an issue][file-an-issue], or reaching out to
+the maintainers on Twitter or Discord.
+
+[admin-page]:         #setting-up-the-webring-administration-page
+[file-an-issue]:      https://github.com/platenio/hugo-toroidal/issues/new
+[start-a-discussion]: https://github.com/platenio/hugo-toroidal/discussions/new

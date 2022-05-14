@@ -1,0 +1,9 @@
+{{ define "response" }}
+  {
+    "webringName": "",
+    "webringList": "",
+    "members": [
+
+    ]
+  }
+{{ end }}

@@ -1,0 +1,10 @@
+mediaTypes:
+  application/json:
+    suffixes:
+      - json
+
+outputFormats:
+  toroidal:
+    mediaType: application/json
+    baseName: toroidal
+    isPlainText: true

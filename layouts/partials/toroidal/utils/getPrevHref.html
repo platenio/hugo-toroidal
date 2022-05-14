@@ -1,0 +1,13 @@
+{{/*
+  Expects a dict with `context` for the current page
+  and `toroidalPages` for the list of webring member
+  entries in the site.
+*/}}
+{{- $prevHref := "" -}}
+{{- with .context.NextInSection -}}
+  {{- $prevHref = .Params.homepage -}}
+{{- end -}}
+{{- if not $prevHref -}}
+  {{- $prevHref = (index .toroidalPages 0).Params.homepage -}}
+{{- end -}}
+{{- return $prevHref -}}

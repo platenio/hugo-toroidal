@@ -1,0 +1,108 @@
+html {
+  font-size: $font-size-base;
+  scroll-behavior: smooth;
+  touch-action: manipulation;
+}
+
+body {
+  color: var(--body-font-color);
+  background: var(--body-background);
+
+  letter-spacing: 0.33px;
+  font-weight: $body-font-weight;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  box-sizing: border-box;
+  * {
+    box-sizing: inherit;
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-weight: $body-font-weight;
+}
+
+nav {
+  padding-top: 0.2rem;
+  padding-bottom: 0.2rem;
+  ul {
+    padding-inline-start: $padding-16;
+    li {
+      list-style-type: none;
+      margin: 1em 0;
+      position: relative;
+    }
+  }
+  a {
+    text-decoration: none;
+    color: var(--color-link);
+    display: block;
+  }
+  a:hover {
+    opacity: 0.5;
+  }
+  img {
+    vertical-align: baseline;
+  }
+  :focus {
+    @include outline;
+  }
+}
+
+article.toroidal {
+  header {
+    margin-top: 0;
+    margin-bottom: $padding-16;
+    img {
+      height: 1.5em;
+      width: 1.5em;
+    }
+  }
+  details {
+    summary {
+      min-height: 1.5em;
+      padding: .5em;
+      font-size: 1em;
+    }
+  }
+  h1, h2 {
+    text-align: center;
+  }
+  section.toroidal-member-entry-admin-links {
+    ul {
+        list-style-type: none;
+        padding-inline-start: 1em;
+        li {
+          padding-bottom: .5em;
+        }
+    }
+  }
+  section.toroidal-member-entry-admin-embed {
+    div.toroidal-copy-buttons {
+      display: flex;
+      button {
+        justify-content: space-between;
+        -webkit-box-flex: 1;      /* OLD - iOS 6-, Safari 3.1-6 */
+        -moz-box-flex: 1;         /* OLD - Firefox 19- */
+        width: 20%;               /* For old syntax, otherwise collapses. */
+        -webkit-flex: 1;          /* Chrome */
+        -ms-flex: 1;              /* IE 10 */
+        flex: 1;                  /* NEW, Spec - Opera 12.1, Firefox 20+ */
+        margin-right: 5%;
+        min-height: 1.5em;
+        padding: .5em;
+      }
+    }
+  }
+}
+
+.toroidal-icon {
+  filter: var(--icon-filter);
+}
+

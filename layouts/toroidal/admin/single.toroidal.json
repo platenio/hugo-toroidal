@@ -1,0 +1,14 @@
+{{ define "response" -}}
+{{- $toroidalPages := where .Site.Pages "Section" "toroidal" -}}
+{{- $toroidalPages = where $toroidalPages "Params.homepage" "!=" nil -}}
+  {
+    "webringName": "{{ partial "toroidal/utils/getWebringName" .}}",
+    "webringList": "{{ ref . "/toroidal" }}",
+    "members": [
+      {{- range $index, $page := $toroidalPages -}}
+      {{- if $index }},{{ end }}
+      {{ partial "toroidal/item.toroidal.json" (dict "context" $page "inList" true) -}}
+      {{- end }}
+    ]
+  }
+{{- end }}
