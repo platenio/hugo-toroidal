@@ -1,5 +1,5 @@
-{{- $styles := partial "toroidal/utils/getStyles" . -}}
-<link rel="stylesheet" href="{{ $styles.RelPermalink }}" {{ template "integrity" $styles }}>
+{{- $stylesFingerprint := partial "toroidal/utils/getStylesFingerprint" . -}}
+<link rel="stylesheet" href="{{ $stylesFingerprint.RelPermalink }}" {{ template "integrity" $stylesFingerprint }}>
 {{- define "integrity" -}}
   {{- if (urls.Parse .Permalink).Host -}}
     integrity="{{ .Data.Integrity }}" crossorigin="anonymous"
