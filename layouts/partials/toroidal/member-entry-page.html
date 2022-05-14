@@ -29,7 +29,7 @@
 <nav aria-labelledby="{{ $labelId }}"
      id="{{ $navId }}">
   {{- with $styles }}
-  {{ partial "toroidal/utils/getStylesLink" . }}
+  {{ . }}
   {{- end -}}
   {{- if $displayRandom }}
   <script type="text/javascript">

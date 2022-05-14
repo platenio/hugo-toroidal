@@ -1,2 +1,0 @@
-{{- $styles := resources.Get "toroidal/toroidal.scss" | resources.ExecuteAsTemplate "toroidal/toroidal.scss" . | resources.ToCSS | resources.Minify | resources.Fingerprint -}}
-{{- return $styles -}}

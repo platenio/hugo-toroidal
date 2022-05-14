@@ -9,7 +9,7 @@
 {{- $vars.Set "webringApiUrl" (ref . (dict "path" "/toroidal/admin.md" "outputFormat" "toroidal")) -}}
 {{- $vars.Set "prevHref" (partial "toroidal/utils/getPrevHref" (dict "context" . "toroidalPages" $toroidalPages)) -}}
 {{- $vars.Set "nextHref" (partial "toroidal/utils/getNextHref" (dict "context" . "toroidalPages" $toroidalPages)) -}}
-{{- $vars.Set "styles" (partial "toroidal/utils/getStyles" .) -}}
+{{- $vars.Set "styles" (partial "toroidal/utils/getStylesLink" .) -}}
 {{- $vars.Set "hideHeader" .Params.Toroidal.NoHeader -}}
 {{- $vars.Set "displayRandom" .Site.Params.toroidal.RandomMemberLink -}}
 {{- $vars.Set "memberPages" (partial "toroidal/utils/getMemberPages" .) -}}
