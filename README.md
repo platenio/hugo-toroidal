@@ -75,11 +75,43 @@ params:
 #config.toml
 [params]
   [params.Toroidal]
-  WebringName = true
+  RandomMemberLink = true
 ```
 
 Specifying the value for this configuration item as `false` is the same as not specifying it.
 You must opt in by setting this configuration item to `true` to enable the random member link.
+
+### Theming
+
+Minimal theming has been added to the member pages of the webring. This theme uses SCSS in the
+`assets/toroidal` folder. By default, the theme is set to **Auto**, which chooses between the
+built-in light and dark themes depending on the user's operating system setting preferences.
+
+You can specify an override via the `Theme` configuration option:
+
+```yaml
+#config.yaml
+params:
+  Toroidal:
+    Theme: custom # or light, dark, or auto
+```
+
+```toml
+#config.toml
+[params]
+  [params.Toroidal]
+  Theme = 'custom' # or light, dark, or auto
+```
+
+The `custom` option allows you to design your own theme from scratch; to do so, you will need to
+shadow the `assets/toroidal/_custom.scss` file in your own site repo.
+
+You can also override any variables you choose by shadowing the `assets/toroidal/_variables.scss`
+file. In the future, we'll have documentation explaining all of the variables. For now,
+unfortunately, you need to [check out the source][source-variables] to see what is in there.
+
+If you have any ideas for theming or run into anything you'd like us to make more extensible,
+please [file an issue][file-an-issue].
 
 ## Adding Members
 
@@ -171,4 +203,9 @@ For now, here's some info you can use to theme things for yourself:
 
 ## Contacting Us
 
-If you have any questions, comments, or concerns, you can reach out to us by [starting a discussion](https://github.com/platenio/hugo-toroidal/discussions/new), [filing an issue](https://github.com/platenio/hugo-toroidal/issues/new), or reaching out to the maintainers on Twitter or Discord.
+If you have any questions, comments, or concerns, you can reach out to us by
+[starting a discussion][start-a-discussion], [filing an issue][file-an-issue], or reaching out to
+the maintainers on Twitter or Discord.
+
+[file-an-issue]: https://github.com/platenio/hugo-toroidal/issues/new
+[start-a-discussion]: https://github.com/platenio/hugo-toroidal/discussions/new
