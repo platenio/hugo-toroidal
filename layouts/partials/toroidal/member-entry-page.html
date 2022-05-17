@@ -1,8 +1,8 @@
 {{/*
-  This partial returns the nav list for a member of a webring.
-  It expects to receive an instance of scratch with the params
-  already set; the only logic this performs is to arrange and
-  format the information. All retrieval must be done first.
+  This partial returns the nav list for a member of a webring. It expects to
+  receive an instance of scratch with the params already set; the only logic
+  this performs is to arrange and format the information. All retrieval must
+  be done first.
 */}}
 {{- $vars := . -}}
 {{- $webringName     := $vars.Get "webringName"    -}}
@@ -14,7 +14,7 @@
 {{- $styles          := $vars.Get "styles"         -}}
 {{- $hideHeader      := $vars.Get "hideHeader"     -}}
 {{- $displayRandom   := $vars.Get "displayRandom"  -}}
-{{- $memberPages     := $vars.Get "memberPages"    -}}
+{{- $memberPageLinks := $vars.Get "memberPageLinks" -}}
 {{- $forEmbedding    := $vars.Get "forEmbedding"   -}}
 {{- $displayComments := $vars.Get "displayComments" -}}
 {{/* Calculated properties */}}
@@ -47,7 +47,7 @@
     {{ "// webring host's API. For more info, see the comments"  | safeJS }}
     {{ "// on loadFromAdminApi() and window.onload. "            | safeJS }}
     {{ end -}}
-    var memberPages = {{ $memberPages | jsonify (dict "prefix" "    " "indent" "  ") | safeJS }}
+    var memberPages = {{ $memberPageLinks | jsonify (dict "prefix" "    " "indent" "  ") | safeJS }}
     
     {{ if $displayComments -}}
     {{ "// This function returns a random member page from the"  | safeJS }}

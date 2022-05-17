@@ -57,6 +57,18 @@ The above example will change the header for your site member list to `Members o
 
 If left unset, the header for your site member list will read `Members of the Webring` and the generated webring navigation label will read `Webring`.
 
+You can also add an `_index.md` file to the section of your site which hosts
+your webring. If you do, the frontmatter for that file determines your webring
+name:
+
+- If the `name` parameter is set, that will be the name of your webring.
+- If the `name` parameter is _not_ set, the name of your webring will be the
+  title of that page (automatically determined by hugo unless you set the
+  `title` parameter).
+
+For more information on webring index files, see
+[Webring Index files](#webring-index-files).
+
 ### Random Member Link
 
 By default, the iframes for your webring include the name of the webring and then a nav list enabling users to go to the previous member of the webring,
@@ -113,6 +125,46 @@ unfortunately, you need to [check out the source][source-variables] to see what 
 If you have any ideas for theming or run into anything you'd like us to make more extensible,
 please [file an issue][file-an-issue].
 
+## Webring Index Files
+
+If you create an `_index.md` file in the base of the `toroidal` folder of your
+site, you can have a little more control over how your webring behaves. Any
+configuration setting in an index file takes precedence over the site's
+configuration.
+
+In the frontmatter of a webring index, you can set:
+
+- `title`:
+- `name`:
+- `description`:
+
+If you are using the index file from any folder other than `content/toroidal`
+in your site, you **must** set the `type` parameter to `toroidal` for it to be
+recognized as a webring index.
+
+### Example Webring Index
+
+This index is located at `content/friends/_index.md`.
+
+Frontmatter:
+
+```yaml
+title: The Fast Friends
+name: Fast Friends
+description: |
+  A webring of collaborators; artists, writers, developers, and designers who
+  work together and separately, supporting one another.
+type: toroidal
+```
+
+In this example, the webring name is `Fast Friends`. If you comment out the
+`name` parameter, the webring name would become `The Fast Friends`. With both
+parameters commented out, the webring name would become `Friends`, (the
+automatic title Hugo gives the page if none is specified).
+
+The `type` parameter is required because this page is not in the default folder
+for toroidal webrings (`content/toroidal`).
+
 ## Adding Members
 
 You can add new member sites to your webring by adding a markdown file in your `content/toroidal` folder.
@@ -163,6 +215,18 @@ and then review the code snippets and choose whether they want to copy the liter
 use an iframe. This view also shows them their currently configured homepage (which other members
 will navigate to for their entry in the webring) and the link to where the member can edit the
 markdown source file for their member entry.
+
+## Multiple Webrings
+
+In addition to hosting a single webring, you can host any number of webrings.
+Any webring not hosted in the root of the `content/toroidal` folder **must**
+include an `_index.md` file with the `type` parameter set to `toroidal` in its
+frontmatter. For more information, see
+[Webring Index Files](#webring-index-files).
+
+Other than the requirement of the index file, additional webrings work and can
+be configured like a top-level webring, including
+[administration][admin-page].
 
 ## Adding the webring navigation to your member site
 
